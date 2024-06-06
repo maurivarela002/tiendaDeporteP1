@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maquetado</title>
+</head>
+
+<body id="body">
+    <div id="login">
+        <h3>Login</h3>
+        <form style="display: grid; gap: 10px; width: 15%;">
+            <label>Nombre de usuario</label>
+            <input type="text"></input>
+            <label>Contraseña</label>
+            <input type="password"></input>
+
+            <button>Iniciar Sesion</button>
+        </form>
+    </div>
+
+    <table id="prodsDisponibles" style="margin-top: 15px;">
+        <h3>Listado de productos disponibles</h3>
+        <thead>
+            <tr>
+                <th>Nombre del producto</th>
+                <th>Cantidad de unidades</th>
+                <th>Precio</th>
+            </tr>
+        </thead>
+        <tbody id="productTable">
+            <tr>
+                <td>Pelota</td>
+                <td>Pelota de fútbol de alta calidad</td>
+                <td>$100</td>
+                <td>No</td>
+                <td><img alt="Pelota"></td>
+                <td><input type="number" id="cantidad-Pelota" min="1" max="5" value="1"></td>
+                <td><button onclick="comprarProducto('Pelota')">Comprar</button></td>
+            </tr>
+            <tr>
+                <td>Pantalon Barcelona</td>
+                <td>Pantalon oficial del FC Barcelona</td>
+                <td>$600</td>
+                <td>No</td>
+                <td><img src="pantalon_barcelona.jpg" alt="Pantalon Barcelona"></td>
+                <td><input type="number" id="cantidad-Pantalon Barcelona" min="1" max="1" value="1"></td>
+                <td><button onclick="comprarProducto('Pantalon Barcelona')">Comprar</button></td>
+            </tr>
+            <tr>
+                <td>Medias antideslizantes</td>
+                <td>Medias deportivas con agarre</td>
+                <td>$57</td>
+                <td>Sí</td>
+                <td><img src="medias_antideslizantes.jpg" alt="Medias antideslizantes"></td>
+                <td><input type="number" id="cantidad-Medias antideslizantes" min="1" max="15" value="1"></td>
+                <td><button onclick="comprarProducto('Medias antideslizantes')">Comprar</button></td>
+            </tr>
+            <!-- Puedes agregar más productos aquí -->
+        </tbody>
+    </table>
+
+    <div id="comprasCliente" style="margin-top: 10px;">
+        <h3>Mis Compras</h3>
+
+        <label for="filter">Filtrar por estado:</label>
+        <select id="filter" onchange="filtrarCompras()" style="margin-bottom: 30px;">
+            <option value="todas">Todas</option>
+            <option value="aprobada">Aprobadas</option>
+            <option value="cancelada">Canceladas</option>
+            <option value="pendiente">Pendientes</option>
+        </select>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre del Producto</th>
+                    <th>Cantidad</th>
+                    <th>Monto Total</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="comprasTable">
+                <tr data-estado="aprobada">
+                    <td>Pelota</td>
+                    <td>2</td>
+                    <td>$200</td>
+                    <td>aprobada</td>
+                    <td></td>
+                </tr>
+                <tr data-estado="pendiente">
+                    <td>Pantalon Barcelona</td>
+                    <td>1</td>
+                    <td>$600</td>
+                    <td>pendiente</td>
+                    <td><button onclick="cancelarCompra(this)">Cancelar</button></td>
+                </tr>
+                <tr data-estado="cancelada">
+                    <td>Medias antideslizantes</td>
+                    <td>3</td>
+                    <td>$171</td>
+                    <td>cancelada</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p id="montoTotal"></p>
+        <p id="saldoDisponible"></p>
+    </div>
+
+    <div id="comprasPendientes">
+        <h2>Compras Pendientes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre del Producto</th>
+                    <th>Cantidad</th>
+                    <th>Monto Total</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="comprasPendientes">
+                <tr data-id="1" data-estado="pendiente" data-stock="5" data-estado-producto="activo">
+                    <td>Pelota</td>
+                    <td>2</td>
+                    <td>$200</td>
+                    <td><button onclick="aprobarCompra(this)">Aprobar</button></td>
+                </tr>
+                <tr data-id="2" data-estado="pendiente" data-stock="1" data-estado-producto="activo">
+                    <td>Pantalon Barcelona</td>
+                    <td>1</td>
+                    <td>$600</td>
+                    <td><button onclick="aprobarCompra(this)">Aprobar</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="comprasAprobadas">
+        <h2>Compras Aprobadas</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre del Producto</th>
+                    <th>Cantidad</th>
+                    <th>Monto Total</th>
+                </tr>
+            </thead>
+            <tbody id="comprasAprobadas">
+                <tr data-id="3" data-estado="aprobada">
+                    <td>Medias antideslizantes</td>
+                    <td>3</td>
+                    <td>$171</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="comprasCanceladas">
+        <h2>Compras Canceladas</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre del Producto</th>
+                    <th>Cantidad</th>
+                    <th>Monto Total</th>
+                </tr>
+            </thead>
+            <tbody id="comprasCanceladas">
+                <!-- Lista de compras canceladas -->
+            </tbody>
+        </table>
+    </div>
+
+    <form id="crearProductos" style="display: grid; gap: 10px; width: 15%; margin-top: 20px;">
+        <label for="nombre">Nombre del Producto:</label>
+        <input type="text" id="nombre" name="nombre" required>
+
+        <label for="precio">Precio:</label>
+        <input type="number" id="precio" name="precio" step="0.01" required>
+
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" name="descripcion" required></textarea>
+
+        <label for="urlImagen">URL de Imagen:</label>
+        <input type="url" id="urlImagen" name="urlImagen" required>
+
+        <label for="stock">Cantidad del Stock Disponible:</label>
+        <input type="number" id="stock" name="stock" required>
+
+        <button type="submit">Crear Producto</button>
+    </form>
+
+    <div id="resumenCompras" style="margin-top: 10px;">
+        <h2>Resumen de Compras</h2>
+        <p id="ventasInfo">Hay 7 productos vendidos para la pelota, teniendo una ganancia total de $679</p>
+    </div>
+
+    <div id="adminProds" style="margin-top: 10px;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre del Producto</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Estado</th>
+                    <th>Oferta</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="productosTable">
+                <tr data-id="1" data-estado="activo" data-stock="5">
+                    <td>Pelota</td>
+                    <td>Pelota de fútbol</td>
+                    <td>$100</td>
+                    <td>
+                        <input type="number" value="5" min="0" onchange="modificarStock(this)">
+                    </td>
+                    <td>
+                        <select onchange="modificarEstado(this)">
+                            <option value="activo" selected>Activo</option>
+                            <option value="pausado">Pausado</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="checkbox" onchange="modificarOferta(this)">
+                    </td>
+                    <td>
+                        <button onclick="eliminarProducto(this)">Eliminar</button>
+                    </td>
+                </tr>
+                <tr data-id="2" data-estado="activo" data-stock="1">
+                    <td>Pantalon Barcelona</td>
+                    <td>Pantalón oficial del FC Barcelona</td>
+                    <td>$600</td>
+                    <td>
+                        <input type="number" value="1" min="0" onchange="modificarStock(this)">
+                    </td>
+                    <td>
+                        <select onchange="modificarEstado(this)">
+                            <option value="activo" selected>Activo</option>
+                            <option value="pausado">Pausado</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="checkbox" checked onchange="modificarOferta(this)">
+                    </td>
+                    <td>
+                        <button onclick="eliminarProducto(this)">Eliminar</button>
+                    </td>
+                </tr>
+                <tr data-id="3" data-estado="pausado" data-stock="15">
+                    <td>Medias antideslizantes</td>
+                    <td>Medias deportivas antideslizantes</td>
+                    <td>$57</td>
+                    <td>
+                        <input type="number" value="15" min="0" onchange="modificarStock(this)">
+                    </td>
+                    <td>
+                        <select onchange="modificarEstado(this)">
+                            <option value="activo">Activo</option>
+                            <option value="pausado" selected>Pausado</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="checkbox" onchange="modificarOferta(this)">
+                    </td>
+                    <td>
+                        <button onclick="eliminarProducto(this)">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+<script src="js/codigo.js"></script>
+<script src="js/compras.js"></script>
+<script src="js/Persona.js"></script>
+<script src="js/productos.js"></script>
+<script src="js/sistema.js"></script>
+
+</html>
