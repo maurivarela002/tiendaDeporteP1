@@ -2,19 +2,29 @@ class Sistema {
     constructor() {
         this.personas = [];
         this.compras = [];
+        this.productos = [];
         this.precarga();
         this.estadoInicial();
-        this.sesionActiva = false
+        this.sesionActiva = null
     }
 
     estadoInicial() {
-        ocultarId('prodsDisponibles');
-        ocultarId('comprasCliente');
-        ocultarId('comprasPendientes');
-        ocultarId('comprasAprobadas');
-        ocultarId('comprasCanceladas');
-        ocultarId('crearProductos');
-        ocultarId('adminProds');
+        ocultarId('#prodsDisponibles');
+        ocultarId('#comprasCliente');
+        ocultarId('#comprasPendientes');
+        ocultarId('#comprasAprobadas');
+        ocultarId('#comprasCanceladas');
+        ocultarId('#crearProductos');
+        ocultarId('#adminProds');
+    }
+
+    //listo
+    hacerLogin(userName, password) {
+        if (this.validarCredenciales(userName, password)) {
+            alert("Login exitoso");
+        } else {
+            alert("Credenciales inválidas");
+        }
     }
 
     devolverLogin(usr, pwd) {
@@ -47,15 +57,21 @@ class Sistema {
         return slcText;
     }
 
-
-    personaExiste(nombre) {
-        return this.devolverPersona(nombre) !== null;
+    //listo
+    AgregarPersona(nombre, apellido, userName, password, numeroTarjeta, cvc) {
+        let unaPersona = new Persona(nombre, apellido, userName, password, numeroTarjeta, cvc);
+        if (unaPersona.validarPersona && this.userNameExiste(this.personas, userName)
+            && unaPersona.validarPassword && unaPersona.validarTarjeta()
+            && unaPersona.validarCvc) {
+            this.personas.push(unaPersona);
+        }
     }
 
-    AgregarPersona(nombre) {
-        let unaPersona = new Persona(nombre);
-        if (unaPersona.validar() && !this.personaExiste(nombre)) {
-            this.personas.push(unaPersona);
+    //listo
+    AgregarProducto(nombre, precio, desc, img, cantDis, estado) {
+        let unProducto = new Productos(nombre, precio, desc, img, cantDis, estado);
+        if (unProducto.validarProductos && !isNaN(precio) > 0 && !isNaN(cantDis) > 0) {
+            this.productos.push(unProducto);
         }
     }
 
@@ -63,8 +79,6 @@ class Sistema {
         let unaCompra = new Compra(cliente, cantidad);
         // obviamos validar para abreviar
         this.compras.push(unaCompra);
-
-
     }
 
     tabla() {   // el operador del SI y NO es el operador terniario
@@ -82,59 +96,48 @@ class Sistema {
         return txtTabla;
     }
 
+
+    //VALIDACIONES
+    personaExiste(nombre) {
+        return this.devolverPersona(nombre) !== null;
+    }
+
+    userNameExiste(personas, userName) {
+        for (let i = 0; i < personas.length; i++) {
+            if (personas[i].userName === userName) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //listo
+    validarCredenciales(userName, password) {
+        for (let i = 0; i < this.personas.length; i++) {
+            let persona = this.personas[i];
+            if (persona[2].toLowerCase() === userName.toLowerCase() && persona[3] === password) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     precarga() {
-        this.AgregarPersona("Carlos García");
-        this.AgregarPersona("Marie Dubois");
-        this.AgregarPersona("John Smith");
-        this.AgregarPersona("Hans Müller");
-        this.AgregarPersona("Ana López");
-        this.AgregarPersona("Sophie Martin");
-        this.AgregarPersona("James Brown");
-        this.AgregarPersona("Fritz Schneider");
-        this.AgregarPersona("José González");
-        this.AgregarPersona("Lucie Lefevre");
-        this.AgregarPersona("William Johnson");
-        this.AgregarPersona("Klaus Fischer");
-        this.AgregarPersona("Elena Fernández");
-        this.AgregarPersona("Emma Bernard");
-        this.AgregarPersona("Emily Davis");
-        this.AgregarPersona("Heinrich Weber");
-        this.AgregarPersona("Pedro Sánchez");
-        this.AgregarPersona("Hugo Dubois");
-        this.AgregarPersona("Charles Wilson");
-        this.AgregarPersona("Erika Wagner");
-        this.AgregarPersona("Laura Pérez");
-        this.AgregarPersona("Claire Girard");
-        this.AgregarPersona("Robert Jones");
-        this.AgregarPersona("Anja Hoffmann");
-        this.AgregarPersona("Miguel Díaz");
-        this.AgregarPersona("Juliette Moreau");
-        this.AgregarPersona("Daniel Evans");
-        this.AgregarPersona("Ralf Becker");
-        this.AgregarPersona("Marta Romero");
-        this.AgregarPersona("Amélie Laurent");
-        this.AgregarPersona("George Williams");
-        this.AgregarPersona("Brigitte Meyer");
-        this.AgregarPersona("Juan Torres");
-        this.AgregarPersona("Camille Lambert");
-        this.AgregarPersona("Edward Taylor");
-        this.AgregarPersona("Johanna Schulz");
-        this.AgregarPersona("Sofía Ramírez");
-        this.AgregarPersona("Élise Dupont");
-        this.AgregarPersona("Henry Harris");
-        this.AgregarPersona("Ulrich König");
-        this.AgregarPersona("Raúl Moreno");
-        this.AgregarPersona("Colette Rousseau");
-        this.AgregarPersona("Thomas Clark");
-        this.AgregarPersona("Sabine Krüger");
-        this.AgregarPersona("Paula Vázquez");
-        this.AgregarPersona("Charlotte Petit");
-        this.AgregarPersona("David Lewis");
-        this.AgregarPersona("Günter Bauer");
-        this.AgregarPersona("Javier Castillo");
-        this.AgregarPersona("Aline Martel");
-        this.AgregarPersona("Christopher Hall");
-        this.AgregarPersona("Helga Zimmermann");
+        this.AgregarPersona("Juan", "Pérez", "juanperez", "Passw0rd1", "1234567890123456", "123"),
+            this.AgregarPersona("María", "González", "mariagonzalez", "Passw0rd2", "2345678901234567", "234"),
+            this.AgregarPersona("Carlos", "Rodríguez", "carlosrodriguez", "Passw0rd3", "3456789012345678", "345"),
+            this.AgregarPersona("Ana", "Martínez", "anamartinez", "Passw0rd4", "4567890123456789", "456"),
+            this.AgregarPersona("Luis", "García", "luisgarcia", "Passw0rd5", "5678901234567890", "567"),
+            this.AgregarPersona("Laura", "Hernández", "laurahernandez", "Passw0rd6", "6789012345678901", "678"),
+            this.AgregarPersona("Pedro", "López", "pedrolopez", "Passw0rd7", "7890123456789012", "789"),
+            this.AgregarPersona("Elena", "Sánchez", "elenasanchez", "Passw0rd8", "8901234567890123", "890"),
+            this.AgregarPersona("Jorge", "Ramírez", "jorgeramirez", "Passw0rd9", "9012345678901234", "901"),
+            this.AgregarPersona("Lucía", "Torres", "lucíatorres", "Passw0rd10", "0123456789012345", "012"),
+            this.AgregarPersona("Fernando", "Flores", "fernandoflores", "Passw0rd11", "1234567890123451", "123"),
+            this.AgregarPersona("Sara", "Rojas", "sararojas", "Passw0rd12", "2345678901234562", "234"),
+            this.AgregarPersona("Diego", "Morales", "diegomorales", "Passw0rd13", "3456789012345673", "345"),
+            this.AgregarPersona("Valeria", "Ortiz", "valeriaortiz", "Passw0rd14", "4567890123456784", "456"),
+            this.AgregarPersona("Miguel", "Jiménez", "migueljimenez", "Passw0rd15", "5678901234567895", "567")
     }
 
 }

@@ -26,30 +26,14 @@ class Persona {
 
     validarPassword() {
         let pwdValidada = false;
-        let unMayus = false;
-        let unMin = false;
-        let unNum = false;
 
         for (let i = 0; i < this.password.length; i++) {
             let pwd = this.password[i];
 
             if (this.password.length > 5) {
-                //Valida si hay alguna mayuscula y si unMayus es false, debido a que cuando encuentre la primera ya seria true y no volveria a entrar
-                if (pwd === pwd.toUpperCase() && !unMayus) {
-                    unMayus = true;
+                if (contarMayusculas(pwd) >= 1 && contarMinusculas(pwd) >= 1 && contarNumeros(pwd) >= 1) {
+                    pwdValidada = true;
                 }
-                //Valida si hay alguna minuscula y si unMin es false, debido a que cuando encuentre la primera ya seria true y no volveria a entrar
-                else if (pwd === pwd.toLowerCase() && !unMin) {
-                    unMin = true;
-                }
-                //Valida si hay algun numero y si unNum es false, debido a que cuando encuentre la primera ya seria true y no volveria a entrar
-                else if (!isNaN(pwd) && !unNum) {
-                    unNum = true;
-                }
-            }
-
-            if (unMayus && unMin && unNum) {
-                pwdValidada = true;
             }
         }
         return pwdValidada;
