@@ -10,15 +10,6 @@ class Productos {
         this.img = img;
     }
 
-    idIncremental() {
-        if (this.id === "") {
-            this.id = '' + 1
-        } else {
-            this.id = this.id++
-        }
-        return this.id;
-    }
-
     prodcutosDisponibles() {
         if (this.stock > 0 && this.estado === 'activo') return true
     }
@@ -28,9 +19,11 @@ class Productos {
     }
 
     validarProductos() {
-        if (this.nombre !== "" && this.precio !== "" && this.stcok !== "" &&
-            this.desc !== "" && this.img !== "") { return true; }
-        else { return false; }
+        if (this.nombre !== "" && this.desc !== "" && this.img !== "") {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
