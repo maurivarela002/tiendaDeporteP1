@@ -9,13 +9,15 @@ class Sistema {
 
     //listo
     hacerLogin(userName, password) {
-        if ( this.userExiste(userName, password)) {
-            alert("Login exitoso");
-            this.sesionActiva = true
-            vistaCliente()
+        if (this.userExiste(userName, password)) {
+            console.log("Login exitoso");
+            this.sesionActiva = true;
+            // vistaCliente();
+            return true;
         } else {
-            alert("Credenciales inválidas");
-            vistalogin()
+            console.log("Credenciales inválidas");
+            //vistalogin();
+            return false;
         }
     }
 
@@ -90,7 +92,8 @@ class Sistema {
     }
 
     productosDisponibles() {
-        let txtTabla = `<table style="margin-top: 15px;">
+        let txtTabla = `<h3>Listado de productos disponibles</h3>`
+        txtTabla += `<table style="margin-top: 15px;">
                 <thead>
                     <tr>
                         <th>Nombre del producto</th>
@@ -105,26 +108,22 @@ class Sistema {
                 <tbody id="productTable">`;
 
         for (let index = 0; index < this.productos.length; index++) {
-            const estado = this.productos[index].estado;
-            if (estado === 'activo') {
-                for (let i = 0; i < this.productos.length; i++) {
-                    txtTabla += `<tr>
-                <td>${this.productos[i].nombre}</td>
-                <td>${this.productos[i].desc}</td>
-                <td>$${this.productos[i].precio.toFixed(2)}</td>
-                <td>${this.productos[i].stock > 0 ? 'Sí' : 'No'}</td>
-                <td><img src="${this.productos[i].img}" alt="${this.productos[i].nombre}"></td>
-                <td><input type="number" id="cantidad-${this.productos[i].nombre}" min="1" max="${this.productos[i].stock}" value="1"></td>
-                <td><button class="comprarProducto">Comprar</button></td>
-            </tr>`;
-                }
-                txtTabla += `</tbody></table>`;
+            const producto = this.productos[index];
+            if (producto.estado === 'activo') {
+                txtTabla += `<tr>
+                    <td>${producto.nombre}</td>
+                    <td>${producto.desc}</td>
+                    <td>$${producto.precio.toFixed(2)}</td>
+                    <td>${producto.stock > 0 ? 'Sí' : 'No'}</td>
+                    <td><img src="${producto.img}" alt="${producto.nombre}"></td>
+                    <td><input type="number" id="cantidad-${producto.nombre}" min="1" max="${producto.stock}" value="1"></td>
+                    <td><button class="comprarProductos" data-id="${this.productos[index].id}">Comprar</button></td>
+                </tr>`;
             }
         }
-
+        txtTabla += `</tbody></table>`;
         return txtTabla;
     }
-
 
     //VALIDACIONES
     personaExiste(nombre) {
@@ -168,19 +167,19 @@ class Sistema {
         this.AgregarPersona(this.idIncremental(), "Miguel", "Jiménez", "migueljimenez", "Passw0rd15", "5678901234567895", '567');
 
         this.AgregarProducto(this.idIncremental(), "Balón de Baloncesto", 29.99, 40, true, "activo", "Balón oficial de baloncesto tamaño estándar.", "balon_baloncesto.jpg"),
-            this.AgregarProducto(this.idIncremental(), "Ropa de Yoga", 39.99, 60, false, "activo", "Conjunto de ropa cómoda para practicar yoga.", "ropa_yoga.jpg"),
-            this.AgregarProducto(this.idIncremental(), "Bicicleta de Montaña", 299.99, 20, true, "activo", "Bicicleta diseñada para terrenos difíciles.", "bicicleta_montana.jpg"),
-            this.AgregarProducto(this.idIncremental(), "Guantes de Boxeo", 49.99, 25, false, "activo", "Guantes profesionales para entrenamiento de boxeo.", "guantes_boxeo.jpg"),
-            this.AgregarProducto(this.idIncremental(), "Tabla de Surf", 199.99, 15, true, "activo", "Tabla de surf resistente y maniobrable.", "tabla_surf.jpg"),
-            this.AgregarProducto(this.idIncremental(), "Cuerda para Saltar", 9.99, 80, false, "activo", "Cuerda de saltar ajustable para entrenamientos intensivos.", "cuerda_saltar.jpg"),
-            this.AgregarProducto(this.idIncremental(), "Pantalones Cortos de Running", 19.99, 70, true, "activo", "Pantalones cortos transpirables para correr.", "pantalones_running.jpg"),
-            this.AgregarProducto(this.idIncremental(), "Balón Medicinal", 39.99, 30, false, "pausado", "Balón medicinal para entrenamientos de fuerza y resistencia.", "balon_medicinal.jpg"),
-            this.AgregarProducto(this.idIncremental(), "Calcetines Deportivos", 7.99, 120, false, "pausado", "Calcetines cómodos y transpirables para deportes.", "calcetines_deportivos.jpg"),
-            this.AgregarProducto(this.idIncremental(), "Gorra de Tenis", 14.99, 50, true, "pausado", "Gorra ajustable para protegerse del sol durante el tenis.", "gorra_tenis.jpg"),
-            this.AgregarProducto(this.idIncremental(), "Mancuernas", 49.99, 45, true, "pausado", "Par de mancuernas para entrenamientos de fuerza.", "mancuernas.jpg"),
-            this.AgregarProducto(this.idIncremental(), "Pulsera de Actividad", 79.99, 65, false, "pausado", "Pulsera para monitorear actividad física y salud.", "pulsera_actividad.jpg"),
-            this.AgregarProducto(this.idIncremental(), "Botella de Agua Deportiva", 12.99, 90, true, "pausado", "Botella de agua diseñada para deportistas.", "botella_agua.jpg"),
-            this.AgregarProducto(this.idIncremental(), "Mochila de Senderismo", 69.99, 25, false, "pausado", "Mochila resistente para excursiones largas.", "mochila_senderismo.jpg")
+            this.AgregarProducto(this.idIncremental(), "Ropa de Yoga", 39.99, 60, false, "activo", "Conjunto de ropa cómoda para practicar yoga.", "ropa_yoga.jpg")
+        // this.AgregarProducto(this.idIncremental(), "Bicicleta de Montaña", 299.99, 20, true, "activo", "Bicicleta diseñada para terrenos difíciles.", "bicicleta_montana.jpg"),
+        // this.AgregarProducto(this.idIncremental(), "Guantes de Boxeo", 49.99, 25, false, "activo", "Guantes profesionales para entrenamiento de boxeo.", "guantes_boxeo.jpg"),
+        // this.AgregarProducto(this.idIncremental(), "Tabla de Surf", 199.99, 15, true, "activo", "Tabla de surf resistente y maniobrable.", "tabla_surf.jpg"),
+        // this.AgregarProducto(this.idIncremental(), "Cuerda para Saltar", 9.99, 80, false, "activo", "Cuerda de saltar ajustable para entrenamientos intensivos.", "cuerda_saltar.jpg"),
+        // this.AgregarProducto(this.idIncremental(), "Pantalones Cortos de Running", 19.99, 70, true, "activo", "Pantalones cortos transpirables para correr.", "pantalones_running.jpg"),
+        // this.AgregarProducto(this.idIncremental(), "Balón Medicinal", 39.99, 30, false, "pausado", "Balón medicinal para entrenamientos de fuerza y resistencia.", "balon_medicinal.jpg"),
+        // this.AgregarProducto(this.idIncremental(), "Calcetines Deportivos", 7.99, 120, false, "pausado", "Calcetines cómodos y transpirables para deportes.", "calcetines_deportivos.jpg"),
+        // this.AgregarProducto(this.idIncremental(), "Gorra de Tenis", 14.99, 50, true, "pausado", "Gorra ajustable para protegerse del sol durante el tenis.", "gorra_tenis.jpg"),
+        // this.AgregarProducto(this.idIncremental(), "Mancuernas", 49.99, 45, true, "pausado", "Par de mancuernas para entrenamientos de fuerza.", "mancuernas.jpg"),
+        // this.AgregarProducto(this.idIncremental(), "Pulsera de Actividad", 79.99, 65, false, "pausado", "Pulsera para monitorear actividad física y salud.", "pulsera_actividad.jpg"),
+        // this.AgregarProducto(this.idIncremental(), "Botella de Agua Deportiva", 12.99, 90, true, "pausado", "Botella de agua diseñada para deportistas.", "botella_agua.jpg"),
+        // this.AgregarProducto(this.idIncremental(), "Mochila de Senderismo", 69.99, 25, false, "pausado", "Mochila resistente para excursiones largas.", "mochila_senderismo.jpg")
     }
 
 

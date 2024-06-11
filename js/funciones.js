@@ -11,28 +11,6 @@ function esSimboloNumerico(numero) {
     return numero >= "0" && numero <= "9";
 }
 
-function ocultarId(nombreDiv) {
-    document.querySelector(nombreDiv).style.display = "none";
-}
-
-function mostrarId(nombreDiv) {
-    document.querySelector(nombreDiv).style.display = "block";
-}
-
-function ocultarClase(nombreClase) {
-    let elementos = document.querySelectorAll(nombreClase);
-    for (let index = 0; index < elementos.length; index++) {
-        elementos[index].style.display = "none";
-    }
-}
-
-function mostrarClase(nombreClase) {
-    let elementos = document.querySelectorAll(nombreClase);
-    for (let index = 0; index < elementos.length; index++) {
-        elementos[index].style.display = "block";
-    }
-}
-
 function contarMayusculas(texto) {
     let contador = 0;
     for (let index = 0; index < texto.length; index++) {

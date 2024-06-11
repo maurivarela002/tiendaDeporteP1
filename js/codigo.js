@@ -1,56 +1,73 @@
 let unS = new Sistema();
-vistalogin()
+vistalogin();
 
-document.querySelector("#loginBtn").addEventListener("click", Login);
-// document
-//     .querySelector("#comprarProducto")
-//     .addEventListener("click", comprarProducto);
-// document
-//     .querySelector("#cancelarCompra")
-//     .addEventListener("click", cancelarCompra);
-// document
-//     .querySelector("#aprobarCompra")
-//     .addEventListener("click", aprobarCompra);
-// document
-//     .querySelector("#crearProducto")
-//     .addEventListener("click", crearProducto);
-// document
-//     .querySelector("#eliminarProducto")
-//     .addEventListener("click", eliminarProducto);
+document.querySelector('#loginBtn').addEventListener('click', function () {
+    event.preventDefault()
+    Login()
+});
 
+let btnComprar = document.querySelectorAll('.comprarProductos', function () {
+    event.preventDefault()
+    for (let index = 0; index < btnComprar.length; index++) {
+        btnComprar[index].addEventListener('click', comprarProductos);
+    }
+});
 
 function Login() {
-    let userName = document.querySelector("#clientUserName").value.toLocaleLowerCase();
+    let userName = document.querySelector("#clientUserName").value.toLowerCase();
     let psswd = document.querySelector("#clientPsswd").value;
-    unS.hacerLogin(userName, psswd)
+    if (unS.hacerLogin(userName, psswd)) {
+        vistaCliente();
+    } else {
+        vistalogin();
+    }
 }
-
-//cambia rol de la persona
-// function cambiarEstado() {
-//     let nombre = this.getAttribute("data-nombre");
-//     let unaP = unS.devolverPersona(nombre);
-//     unaP.alternarAdmin();
-//     procesarTabla();
-// }
 
 function vistalogin() {
     document.querySelector("#clientUserName").value = "";
     document.querySelector("#clientPsswd").value = "";
 
-    mostrarId('#login')
+    mostrarClase(".login");
     ocultarClase(".cliente");
     ocultarClase(".admin");
 }
 
 function vistaCliente() {
-    ocultarId('#login')
-    mostrarClase(".cliente");
+    ocultarClase(".login");
+    document.querySelector('#prodsDisponibles').innerHTML = unS.productosDisponibles();
     ocultarClase(".admin");
-    document.querySelector('#prodsDisponibles').innerHTML = unS.productosDisponibles()
+    mostrarClase(".cliente");
 }
 
 function vistaAdmin() {
-    ocultarId('#login')
+    ocultarClase(".login");
     mostrarClase(".admin");
     ocultarClase(".cliente");
+}
+
+function mostrarId(id) {
+    document.querySelector(id).style.display = 'block';
+}
+
+function ocultarId(id) {
+    document.querySelector(id).style.display = 'none';
+}
+
+function mostrarClase(clase) {
+    let elementos = document.querySelectorAll(clase);
+    elementos.forEach(elemento => {
+        elemento.style.display = 'block';
+    });
+}
+
+function ocultarClase(clase) {
+    let elementos = document.querySelectorAll(clase);
+    elementos.forEach(elemento => {
+        elemento.style.display = 'none';
+    });
+}
+
+
+function comprarProductos() {
+    console.log('compre');
 }
