@@ -6,68 +6,33 @@ document.querySelector('#loginBtn').addEventListener('click', function () {
     Login()
 });
 
-let btnComprar = document.querySelectorAll('.comprarProductos', function () {
-    event.preventDefault()
-    for (let index = 0; index < btnComprar.length; index++) {
-        btnComprar[index].addEventListener('click', comprarProductos);
-    }
-});
+let personaInicio = {};
 
 function Login() {
     let userName = document.querySelector("#clientUserName").value.toLowerCase();
     let psswd = document.querySelector("#clientPsswd").value;
     if (unS.hacerLogin(userName, psswd)) {
         vistaCliente();
+        personaInicio = unS.devolverPersona(document.querySelector("#clientUserName").value.toLowerCase())
     } else {
-        vistalogin();
+        vistalogin()
     }
 }
 
-function vistalogin() {
-    document.querySelector("#clientUserName").value = "";
-    document.querySelector("#clientPsswd").value = "";
-
-    mostrarClase(".login");
-    ocultarClase(".cliente");
-    ocultarClase(".admin");
+function comprarProductos(idProd, cant) {
+    unS.AgregarCompra(personaInicio.id, parseInt(idProd), 'pendiente', parseInt(cant));
+    misCompras()
 }
 
-function vistaCliente() {
-    ocultarClase(".login");
-    document.querySelector('#prodsDisponibles').innerHTML = unS.productosDisponibles();
-    ocultarClase(".admin");
-    mostrarClase(".cliente");
-}
-
-function vistaAdmin() {
-    ocultarClase(".login");
-    mostrarClase(".admin");
-    ocultarClase(".cliente");
-}
-
-function mostrarId(id) {
-    document.querySelector(id).style.display = 'block';
-}
-
-function ocultarId(id) {
-    document.querySelector(id).style.display = 'none';
-}
-
-function mostrarClase(clase) {
-    let elementos = document.querySelectorAll(clase);
-    elementos.forEach(elemento => {
-        elemento.style.display = 'block';
+function misCompras() {
+    document.querySelector('#misCompras').innerHTML = unS.misCompras();
+    let btnCancelar = document.querySelectorAll('.cancelarCompra');
+    btnCancelar.forEach(prod => {
+        console.log('prod ', prod);
+        prod.addEventListener('click', function () {
+            let compraId = this.getAttribute('data-id');
+            console.log('compraId ', compraId);
+        });
     });
 }
 
-function ocultarClase(clase) {
-    let elementos = document.querySelectorAll(clase);
-    elementos.forEach(elemento => {
-        elemento.style.display = 'none';
-    });
-}
-
-
-function comprarProductos() {
-    console.log('compre');
-}

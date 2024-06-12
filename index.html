@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="./estilos/estilos.css">
+    <link rel="stylesheet" href="./css/estilos.css">
     <title>Tienda</title>
 </head>
 
@@ -21,58 +21,16 @@
     </div>
 
     <div id="prodsDisponibles" class="cliente">
-        
+
     </div>
 
-    <div id="comprasCliente" class="admin" style="margin-top: 10px;">
-        <h3>Mis Compras</h3>
-
-        <label for="filter">Filtrar por estado:</label>
-        <select id="filter" style="margin-bottom: 30px;">
-            <option value="todas">Todas</option>
-            <option value="aprobada">Aprobadas</option>
-            <option value="cancelada">Canceladas</option>
-            <option value="pendiente">Pendientes</option>
-        </select>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre del Producto</th>
-                    <th>Cantidad</th>
-                    <th>Monto Total</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="comprasTable">
-                <tr data-estado="aprobada">
-                    <td>Pelota</td>
-                    <td>2</td>
-                    <td>$200</td>
-                    <td>aprobada</td>
-                    <td></td>
-                </tr>
-                <tr data-estado="pendiente">
-                    <td>Pantalon Barcelona</td>
-                    <td>1</td>
-                    <td>$600</td>
-                    <td>pendiente</td>
-                    <td><button id="cancelarCompra">Cancelar</button></td>
-                </tr>
-                <tr data-estado="cancelada">
-                    <td>Medias antideslizantes</td>
-                    <td>3</td>
-                    <td>$171</td>
-                    <td>cancelada</td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-
+    <div id="misCompras" class="cliente" style="margin-top: 10px;">
+       
         <p id="montoTotal"></p>
         <p id="saldoDisponible"></p>
     </div>
 
+    <!-- 
     <div id="comprasPendientes" class="admin">
         <h2>Compras Pendientes</h2>
         <table>
@@ -133,7 +91,7 @@
             </thead>
             <tbody id="comprasCanceladas">
                 <!-- Lista de compras canceladas -->
-            </tbody>
+    <!-- </tbody>
         </table>
     </div>
 
@@ -237,7 +195,7 @@
                 </tr>
             </tbody>
         </table>
-    </div>
+    </div> -->
 </body>
 
 <script src="js/compras.js"></script>

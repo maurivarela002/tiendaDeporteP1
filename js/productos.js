@@ -10,13 +10,13 @@ class Productos {
         this.img = img;
     }
 
-    prodcutosDisponibles() {
-        if (this.stock > 0 && this.estado === 'activo') return true
-    }
+    // prodcutosDisponibles() {
+    //     if (this.stock > 0 && this.estado === 'activo') return true
+    // }
 
-    productosEnOfertas() {
-        if (this.oferta === true) return true;
-    }
+    // productosEnOfertas() {
+    //     if (this.oferta === true) return true;
+    // }
 
     validarProductos() {
         if (this.nombre !== "" && this.desc !== "" && this.img !== "") {

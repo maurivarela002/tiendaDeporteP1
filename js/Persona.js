@@ -1,5 +1,5 @@
 class Persona {
-    constructor(id, nombre, apellido, userName, password, tarjetaCredito, cvc) {
+    constructor(id, nombre, apellido, userName, password, tarjetaCredito, cvc, compras = []) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -9,20 +9,12 @@ class Persona {
         this.userName = userName;
         this.saldo = 3000;
         this.admin = false;
+        this.misCompras = compras
     }
 
-    // idIncremental() {
-    //     if (this.id === undefined) {
-    //         this.id = 1;
-    //     } else {
-    //         this.id++;
-    //     }
-    //     return this.id;
+    // validarUserName() {
+    //     return this.userName.toLowerCase()
     // }
-
-    validarUserName() {
-        return this.userName.toLowerCase()
-    }
 
     validarPassword() {
         let pwdValidada = false;

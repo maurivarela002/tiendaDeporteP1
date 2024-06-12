@@ -43,3 +43,60 @@ function contarNumeros(texto) {
     }
     return contador;
 }
+
+function mostrarId(id) {
+    document.querySelector(id).style.display = 'block';
+}
+
+function ocultarId(id) {
+    document.querySelector(id).style.display = 'none';
+}
+
+function mostrarClase(clase) {
+    let elementos = document.querySelectorAll(clase);
+    elementos.forEach(elemento => {
+        elemento.style.display = 'block';
+    });
+}
+
+function ocultarClase(clase) {
+    let elementos = document.querySelectorAll(clase);
+    elementos.forEach(elemento => {
+        elemento.style.display = 'none';
+    });
+}
+
+function vistalogin() {
+    document.querySelector("#clientUserName").value = "";
+    document.querySelector("#clientPsswd").value = "";
+    mostrarClase(".login");
+    ocultarClase(".cliente");
+    // ocultarClase(".admin");
+}
+let persona = {};
+function vistaCliente() {
+    ocultarClase(".login");
+    // ocultarClase(".admin");
+    mostrarClase(".cliente");
+    productosDisponibles()
+    misCompras()
+}
+
+function vistaAdmin() {
+    ocultarClase(".login");
+    // mostrarClase(".admin");
+    ocultarClase(".cliente");
+}
+
+function productosDisponibles() {
+    document.querySelector('#prodsDisponibles').innerHTML = unS.productosDisponibles();
+    let btnComprar = document.querySelectorAll('.comprarProductos');
+    btnComprar.forEach(prod => {
+        prod.addEventListener('click', function () {
+            let productoId = this.getAttribute('data-id');
+            let cantidadInput = this.closest('tr').querySelector('.cantStock').value;
+
+            comprarProductos(productoId, cantidadInput);
+        });
+    });
+}
