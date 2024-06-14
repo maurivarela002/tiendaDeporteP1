@@ -66,26 +66,40 @@ function ocultarClase(clase) {
     });
 }
 
+function vistaEmpty() {
+    ocultarClase(".logOut");
+    ocultarClase(".login");
+    ocultarClase(".cliente");
+    ocultarClase(".admin");
+}
+
 function vistalogin() {
     document.querySelector("#clientUserName").value = "";
     document.querySelector("#clientPsswd").value = "";
+    ocultarClase(".logOut");
     mostrarClase(".login");
     ocultarClase(".cliente");
-    // ocultarClase(".admin");
+    ocultarClase(".admin");
 }
+
 let persona = {};
 function vistaCliente() {
+    ocultarClase(".biemvenido");
     ocultarClase(".login");
-    // ocultarClase(".admin");
+    ocultarClase(".admin");
     mostrarClase(".cliente");
+    mostrarClase(".logOut");
     productosDisponibles()
+    productosEnOferta()
     misCompras()
 }
 
 function vistaAdmin() {
+    ocultarClase(".biemvenido"); 
     ocultarClase(".login");
-    // mostrarClase(".admin");
     ocultarClase(".cliente");
+    mostrarClase(".admin");
+    mostrarClase(".logOut");
 }
 
 function productosDisponibles() {
@@ -95,8 +109,38 @@ function productosDisponibles() {
         prod.addEventListener('click', function () {
             let productoId = this.getAttribute('data-id');
             let cantidadInput = this.closest('tr').querySelector('.cantStock').value;
-
             comprarProductos(productoId, cantidadInput);
+        });
+    });
+}
+
+function productosEnOferta() {
+    document.querySelector('#prodsEnOferta').innerHTML = unS.productosEnOferta();
+    let btnComprarOferta = document.querySelectorAll('.comprarProductosOferta');
+    btnComprarOferta.forEach(prod => {
+        prod.addEventListener('click', function () {
+            let productoId = this.getAttribute('data-id');
+            let cantidadInput = this.closest('tr').querySelector('.cantStock').value;
+            comprarProductos(productoId, cantidadInput);
+        });
+    });
+}
+
+function misCompras() {
+    document.querySelector('#misCompras').innerHTML = unS.misCompras();
+    let select = document.querySelectorAll('.filter');
+    select.forEach(prod => {
+        prod.addEventListener('change', function () {
+            const valorSeleccionado = this.value;
+            console.log('Valor seleccionado:', valorSeleccionado);
+        });
+    });
+
+    let btnCancelar = document.querySelectorAll('.cancelarCompra');
+    btnCancelar.forEach(prod => {
+        prod.addEventListener('click', function () {
+            let compraId = this.getAttribute('data-id');
+            cancelarProductos(compraId);
         });
     });
 }

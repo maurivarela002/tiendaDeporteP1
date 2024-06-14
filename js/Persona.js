@@ -1,5 +1,5 @@
 class Persona {
-    constructor(id, nombre, apellido, userName, password, tarjetaCredito, cvc, compras = []) {
+    constructor(id, nombre, apellido, userName, password, tarjetaCredito, cvc, admin = false) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -8,8 +8,7 @@ class Persona {
         this.cvc = cvc;
         this.userName = userName;
         this.saldo = 3000;
-        this.admin = false;
-        this.misCompras = compras
+        this.admin = admin;
     }
 
     // validarUserName() {

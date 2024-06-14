@@ -1,4 +1,68 @@
-body {
+main {
     display: grid;
     justify-content: center;
+}
+
+.biemvenido{
+    margin: 20% 0;
+    border: 1px solid rgb(35, 37, 35);
+    padding: 10%;
+}
+
+.biemvenido:hover{
+    border: 1px solid rgb(0, 255, 0);
+    font-size: large;
+}
+
+.logOut {
+    padding: 2% 0;
+}
+
+.logOutStyle {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.logOutStyle:hover {
+    background-color: #ff4b4b;
+    transform: scale(1.05);
+}
+
+.logOutStyle:active {
+    background-color: #ff3b3b;
+    transform: scale(1);
+}
+
+.loginAdmin {
+    border: 1px solid rgb(232, 32, 32);
+    padding: 10%;
+    width: 100%;
+    margin-top: 20%
+}
+
+.login {
+    border: 1px solid rgb(16, 84, 230);
+    padding: 10%;
+    width: 100%;
+    margin-top: 20%
+}
+
+.cliente {
+    padding: 10px 40px;
+    border: 1px solid rgb(7, 7, 7);
+}
+
+.admin {
+    padding: 10px 40px;
+    border: 1px solid rgb(0, 0, 0);
+}
+
+th td {
+    padding: 0px 15px;
 }
