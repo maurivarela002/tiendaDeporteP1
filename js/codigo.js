@@ -15,8 +15,7 @@ function Login() {
     let userName = document.querySelector("#clientUserName").value.toLowerCase();
     let psswd = document.querySelector("#clientPsswd").value;
     if (unS.hacerLogin(userName, psswd)) {
-        unS.sesionActiva.admin ? vistaAdmin() : vistaCliente();
-        //personaInicio = unS.devolverPersona(document.querySelector("#clientUserName").value.toLowerCase())
+        unS.sesionActiva.admin === true ? vistaAdmin() : vistaCliente();
     } else {
         vistalogin()
     }
@@ -29,11 +28,16 @@ function LogOut() {
 
 function comprarProductos(idProd, cant) {
     unS.AgregarCompra(parseInt(idProd), 'pendiente', parseInt(cant));
-    misCompras()
+    vistaCliente()
 }
 
 function cancelarProductos(compId) {
     unS.cancelarCompraById(parseInt(compId))
-    misCompras()
+    vistaCliente()
+}
+
+function aprobarCompras(compId) {
+    unS.aprobarCompraById(parseInt(compId))
+    vistaAdmin()
 }
 

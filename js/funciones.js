@@ -66,13 +66,6 @@ function ocultarClase(clase) {
     });
 }
 
-function vistaEmpty() {
-    ocultarClase(".logOut");
-    ocultarClase(".login");
-    ocultarClase(".cliente");
-    ocultarClase(".admin");
-}
-
 function vistalogin() {
     document.querySelector("#clientUserName").value = "";
     document.querySelector("#clientPsswd").value = "";
@@ -84,7 +77,6 @@ function vistalogin() {
 
 let persona = {};
 function vistaCliente() {
-    ocultarClase(".biemvenido");
     ocultarClase(".login");
     ocultarClase(".admin");
     mostrarClase(".cliente");
@@ -95,11 +87,13 @@ function vistaCliente() {
 }
 
 function vistaAdmin() {
-    ocultarClase(".biemvenido"); 
     ocultarClase(".login");
     ocultarClase(".cliente");
     mostrarClase(".admin");
     mostrarClase(".logOut");
+    comprasPendientes()
+    comprasAprobadas()
+    comprasCanceladas()
 }
 
 function productosDisponibles() {
@@ -143,4 +137,25 @@ function misCompras() {
             cancelarProductos(compraId);
         });
     });
+}
+
+//admin
+
+function comprasPendientes() {
+    document.querySelector('#comprasPendientes').innerHTML = unS.comprasPendientes();
+    let btnAprobar = document.querySelectorAll('.aprobarCompra');
+    btnAprobar.forEach(prod => {
+        prod.addEventListener('click', function () {
+            let productoId = this.getAttribute('data-id');
+            aprobarCompras(productoId);
+        });
+    });
+}
+
+function comprasAprobadas() {
+    document.querySelector('#comprasAprobadas').innerHTML = unS.comprasAprobadas();
+}
+
+function comprasCanceladas() {
+    document.querySelector('#comprasCanceladas').innerHTML = unS.comprasCanceladas();
 }

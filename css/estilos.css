@@ -3,17 +3,6 @@ main {
     justify-content: center;
 }
 
-.biemvenido{
-    margin: 20% 0;
-    border: 1px solid rgb(35, 37, 35);
-    padding: 10%;
-}
-
-.biemvenido:hover{
-    border: 1px solid rgb(0, 255, 0);
-    font-size: large;
-}
-
 .logOut {
     padding: 2% 0;
 }
@@ -39,18 +28,16 @@ main {
     transform: scale(1);
 }
 
-.loginAdmin {
-    border: 1px solid rgb(232, 32, 32);
-    padding: 10%;
-    width: 100%;
-    margin-top: 20%
-}
-
 .login {
     border: 1px solid rgb(16, 84, 230);
     padding: 10%;
     width: 100%;
     margin-top: 20%
+}
+
+.credencialInvalida{
+    color: red;
+    padding: 5%;
 }
 
 .cliente {

@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="./css/estilos.css">
+    <link rel="icon" type="image/x-icon" href="./assets/baloncestoBall.webp">
     <title>Tienda</title>
 </head>
 
@@ -23,86 +24,23 @@
 
                 <button id="loginBtn">Iniciar Sesion</button>
             </form>
+            <p class="credencialInvalida" id="credencialInvalida"></p>
         </div>
 
-        <div id="prodsDisponibles" class="cliente">
+        <div id="prodsDisponibles" class="cliente"></div>
 
-        </div>
+        <div style="margin-top: 25px;" id="prodsEnOferta" class="cliente"></div>
 
-        <div style="margin-top: 25px;" id="prodsEnOferta" class="cliente">
+        <div id="misCompras" class="cliente" style="margin-top: 10px;"></div>
 
-        </div>
 
-        <div id="misCompras" class="cliente" style="margin-top: 10px;">
+        <div id="comprasPendientes" class="admin"></div>
+        
+        <div id="comprasAprobadas" class="admin"></div>
 
-            <!-- <p id="montoTotal"></p>
-        <p id="saldoDisponible"></p> -->
-        </div>
-
+        <div id="comprasCanceladas" class="admin"></div>
         <!-- 
-    <div id="comprasPendientes" class="admin">
-        <h2>Compras Pendientes</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre del Producto</th>
-                    <th>Cantidad</th>
-                    <th>Monto Total</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="comprasPendientes">
-                <tr data-estado="pendiente" data-stock="5" data-estado-producto="activo">
-                    <td>Pelota</td>
-                    <td>2</td>
-                    <td>$200</td>
-                    <td><button id="aprobarCompra">Aprobar</button></td>
-                </tr>
-                <tr data-estado="pendiente" data-stock="1" data-estado-producto="activo">
-                    <td>Pantalon Barcelona</td>
-                    <td>1</td>
-                    <td>$600</td>
-                    <td><button v="aprobarCompra">Aprobar</button></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="comprasAprobadas" class="admin">
-        <h2>Compras Aprobadas</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre del Producto</th>
-                    <th>Cantidad</th>
-                    <th>Monto Total</th>
-                </tr>
-            </thead>
-            <tbody id="comprasAprobadas">
-                <tr data-estado="aprobada">
-                    <td>Medias antideslizantes</td>
-                    <td>3</td>
-                    <td>$171</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="comprasCanceladas" class="admin">
-        <h2>Compras Canceladas</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre del Producto</th>
-                    <th>Cantidad</th>
-                    <th>Monto Total</th>
-                </tr>
-            </thead>
-            <tbody id="comprasCanceladas">
-                <!-- Lista de compras canceladas -->
-        <!-- </tbody>
-        </table>
-    </div>
+   
 
     <form id="crearProductos" class="admin" style="display: grid; gap: 10px; width: 15%; margin-top: 20px;">
         <label>Nombre del Producto:</label>

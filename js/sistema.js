@@ -10,11 +10,10 @@ class Sistema {
     hacerLogin(userName, password) {
         if (this.sesionActiva === null) {
             if (this.userExiste(userName, password)) {
-                console.log("Login exitoso");
                 this.sesionActiva = this.devolverPersona(userName);
                 return true;
             } else {
-                console.log("Credenciales inválidas");
+                document.querySelector('#credencialInvalida').innerHTML = 'Credenciales inválidas'
                 return false;
             }
         }
@@ -110,6 +109,28 @@ class Sistema {
         }
     }
 
+    aprobarCompraById(idCompra) {
+        for (let i = 0; i < this.compras.length; i++) {
+            const compra = this.compras[i];
+            const producto = compra.misProductos;
+            const cliente = compra.cliente;
+            if (compra.idCompra === idCompra && compra.estado === 'pendiente') {
+                if (producto.estado === 'activo' && cliente.saldo >= (producto.precio * compra.cantidad) && producto.stock >= compra.cantidad) {
+                    compra.estado = 'aprobada';
+                    producto.stock -= compra.cantidad;
+                    cliente.saldo -= (producto.precio * compra.cantidad);
+
+                    if (producto.stock === 0) {
+                        producto.estado = 'pausado';
+                    }
+                } else {
+                    compra.estado = 'cancelada';
+                }
+                break;
+            }
+        }
+    }
+
 
     // Dibujo de tablas cliente
 
@@ -181,6 +202,7 @@ class Sistema {
     }
 
     misCompras() {
+        let contadorComrpras = 1;
         let txtTabla = `<h3>Mis Compras</h3>`;
         txtTabla += `<select class="filter" style="margin-bottom: 30px;">
             <option value="todas" selected>Todas</option>
@@ -212,11 +234,12 @@ class Sistema {
                 txtTabla += `<td><input type="submit" class="cancelarCompra" value="Cancelar" data-id="${misCompras.idCompra}"></input></td>`
             }
             txtTabla += `</tr>`;
+            txtTabla += `</tbody></table>`;
 
             if (misCompras.estado === 'aprobada') {
-                txtTabla += `<p>La cantidad de compras es ${misCompras.cantidad}, y el saldo disponible ${misCompras.cliente.saldo}</p>`
+                console.log('misCompras.estado ', misCompras.estado);
+                txtTabla += `<p>La cantidad de compras es ${contadorComrpras++}, y el saldo disponible ${misCompras.cliente.saldo}</p>`
             }
-            txtTabla += `</tbody></table>`;
         }
         return txtTabla;
     }
@@ -224,11 +247,13 @@ class Sistema {
 
     //Dibujo de tablas admin
 
-    comprasPendientes() {
+    comprasPendientes() {        
         let txtTabla = `<h3>Compras Pendientes</h3>`;
         for (let index = 0; index < this.compras.length; index++) {
             const misCompras = this.compras[index];
-            txtTabla += `<table style="margin-top: 15px;">
+            console.log('pendiente? ', misCompras.estado);
+            if (misCompras.estado === 'pendiente') {
+                txtTabla += `<table style="margin-top: 15px;">
                 <thead>
                     <tr>
                     <th>Nombre del Producto</th>
@@ -238,19 +263,20 @@ class Sistema {
                     </tr>
                 </thead>
                 <tbody id="comprasTable">`;
-            txtTabla += `<tr>
+                txtTabla += `<tr>
                     <td>${misCompras.misProductos.nombre}</td>
                     <td>${misCompras.cantidad}</td>
                     <td>$${misCompras.cantidad * misCompras.misProductos.precio}</td>`
-            if (misCompras.estado === 'pendiente') {
-                txtTabla += `<td><input type="submit" class="aprobarCompra" value="Aprobar" data-id="${misCompras.idCompra}"></input></td>`
-            }
-            txtTabla += `</tr>`;
+                if (misCompras.estado === 'pendiente') {
+                    txtTabla += `<td><input type="submit" class="aprobarCompra" value="Aprobar" data-id="${misCompras.idCompra}"></input></td>`
+                }
+                txtTabla += `</tr>`;
 
-            if (misCompras.estado === 'aprobada') {
-                txtTabla += `<p>La cantidad de compras es ${misCompras.cantidad}, y el saldo disponible ${misCompras.cliente.saldo}</p>`
+                if (misCompras.estado === 'aprobada') {
+                    txtTabla += `<p>La cantidad de compras es ${misCompras.cantidad}, y el saldo disponible ${misCompras.cliente.saldo}</p>`
+                }
+                txtTabla += `</tbody></table>`;
             }
-            txtTabla += `</tbody></table>`;
         }
         return txtTabla;
     }
@@ -259,14 +285,13 @@ class Sistema {
         let txtTabla = `<h3>Compras Aprobadas</h3>`;
         for (let index = 0; index < this.compras.length; index++) {
             const misCompras = this.compras[index];
-            if(misCompras.estado === '')
-            txtTabla += `<table style="margin-top: 15px;">
+            if (misCompras.estado === 'aprobada')
+                txtTabla += `<table style="margin-top: 15px;">
                 <thead>
                     <tr>
                     <th>Nombre del Producto</th>
                     <th>Cantidad</th>
                     <th>Monto Total</th>
-                    <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="comprasTable">`;
@@ -275,39 +300,32 @@ class Sistema {
                     <td>${misCompras.cantidad}</td>
                     <td>$${misCompras.cantidad * misCompras.misProductos.precio}</td>`
             txtTabla += `</tr>`;
-
-            if (misCompras.estado === 'aprobada') {
-                txtTabla += `<p>La cantidad de compras es ${misCompras.cantidad}, y el saldo disponible ${misCompras.cliente.saldo}</p>`
-            }
             txtTabla += `</tbody></table>`;
         }
         return txtTabla;
     }
 
-    comprasaCanceladas() {
+    comprasCanceladas() {
         let txtTabla = `<h3>Compras Canceladas</h3>`;
         for (let index = 0; index < this.compras.length; index++) {
             const misCompras = this.compras[index];
-            txtTabla += `<table style="margin-top: 15px;">
+            if (misCompras.estado === 'cancelada') {
+                txtTabla += `<table style="margin-top: 15px;">
                 <thead>
                     <tr>
                     <th>Nombre del Producto</th>
                     <th>Cantidad</th>
                     <th>Monto Total</th>
-                    <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="comprasTable">`;
-            txtTabla += `<tr>
+                txtTabla += `<tr>
                     <td>${misCompras.misProductos.nombre}</td>
                     <td>${misCompras.cantidad}</td>
                     <td>$${misCompras.cantidad * misCompras.misProductos.precio}</td>`
-            txtTabla += `</tr>`;
-
-            if (misCompras.estado === 'aprobada') {
-                txtTabla += `<p>La cantidad de compras es ${misCompras.cantidad}, y el saldo disponible ${misCompras.cliente.saldo}</p>`
+                txtTabla += `</tr>`;
+                txtTabla += `</tbody></table>`;
             }
-            txtTabla += `</tbody></table>`;
         }
         return txtTabla;
     }
