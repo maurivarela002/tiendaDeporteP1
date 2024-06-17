@@ -35,7 +35,7 @@ main {
     margin-top: 20%
 }
 
-.credencialInvalida{
+.credencialInvalida {
     color: red;
     padding: 5%;
 }
@@ -50,6 +50,108 @@ main {
     border: 1px solid rgb(0, 0, 0);
 }
 
-th td {
-    padding: 0px 15px;
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f2f2f2;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+table img {
+    width: 40px;
+    height: 40px;
+}
+
+#crearProductos.admin {
+    display: grid;
+    gap: 10px;
+    width: 300px;
+    margin-top: 20px;
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #302f2f;
+    border-radius: 8px;
+}
+
+#crearProductos.admin label {
+    font-weight: bold;
+}
+
+#crearProductos.admin input[type="text"],
+#crearProductos.admin input[type="number"],
+#crearProductos.admin textarea,
+#crearProductos.admin select {
+    width: calc(100% - 20px);
+    padding: 8px;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+#crearProductos.admin #urlImagenP {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+#crearProductos.admin button#crearProductoP {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+/* Estilos generales para el contenedor principal */
+.resumenBtn {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el botón "Resumen de compras" */
+.btnResumen {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btnResumen:hover {
+    background-color: #45a049;
+}
+
+/* Estilos para el contenedor del resumen de compras */
+#resumenCompras {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #ffffff;
 }

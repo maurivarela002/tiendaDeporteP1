@@ -100,6 +100,15 @@ class Sistema {
         }
     }
 
+    precioProductoById(idProd) {
+        for (let i = 0; i < this.productos.length; i++) {
+            if (this.productos[i].id === idProd) {
+                return this.productos[i].precio
+            }
+        }
+    }
+
+    //aprobar y cancelar compras
     cancelarCompraById(idCompra) {
         for (let i = 0; i < this.compras.length; i++) {
             if (this.compras[i].idCompra === idCompra) {
@@ -131,236 +140,319 @@ class Sistema {
         }
     }
 
+    //administracion de productos
+    modificarStockById(idProd, stockNuevo) {
+        for (let i = 0; i < this.productos.length; i++) {
+            if (this.productos[i].id === idProd) {
+                this.productos[i].stock = stockNuevo;
+                break;
+            }
+        }
+    }
+    modificarEstadoById(idProd, estadoNuevo) {
+        for (let i = 0; i < this.productos.length; i++) {
+            if (this.productos[i].id === idProd) {
+                this.productos[i].estado = estadoNuevo;
+                break;
+            }
+        }
+    }
+    modificarOfertaById(idProd, ofertaNueva) {
+        for (let i = 0; i < this.productos.length; i++) {
+            if (this.productos[i].id === idProd) {
+                this.productos[i].oferta = ofertaNueva;
+                break;
+            }
+        }
+    }
+
 
     // Dibujo de tablas cliente
 
     productosDisponibles() {
-        let txtTabla = `<h3>Listado de productos disponibles</h3>`
+        let txtTabla = `<h3>Listado de productos disponibles</h3>`;
+        txtTabla += `<table style="margin-top: 15px; width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th style="border: 1px solid #ddd; padding: 8px;">Nombre del producto</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Descripción</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Precio</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Disponible</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Imagen</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Cantidad</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Acción</th>
+            </tr>
+        </thead>
+        <tbody id="productTable">`;
 
         for (let index = 0; index < this.productos.length; index++) {
             const producto = this.productos[index];
             if (producto.estado === 'activo' && producto.stock > 0) {
-                txtTabla += `<table style="margin-top: 15px;">
-                <thead>
-                    <tr>
-                        <th>Nombre del producto</th>
-                        <th>Descripción</th>
-                        <th>Precio</th>
-                        <th>Disponible</th>
-                        <th>Imagen</th>
-                        <th>Cantidad</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody id="productTable">`;
                 txtTabla += `<tr>
-                    <td>${producto.nombre}</td>
-                    <td>${producto.desc}</td>
-                    <td>$${producto.precio}</td>
-                    <td>${producto.stock > 0 ? 'Sí' : 'No'}</td>
-                    <td><img src="${producto.img}" alt="${producto.nombre}" style="width: 40px; heigth: 40px;"></td>
-                    <td><input type="number" class="cantStock" min="1" max="${producto.stock}" value="1"></td>
-                    <td><input type="submit" class="comprarProductos" value="Comprar" data-id="${this.productos[index].id}"></input></td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${producto.nombre}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${producto.desc}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">$${producto.precio}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${producto.stock > 0 ? 'Sí' : 'No'}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;"><img src="${producto.img}" alt="${producto.nombre}" style="width: 40px; height: 40px;"></td>
+                    <td style="border: 1px solid #ddd; padding: 8px;"><input type="number" class="cantStock" min="1" max="${producto.stock}" value="1"></td>
+                    <td style="border: 1px solid #ddd; padding: 8px;"><input type="submit" class="comprarProductos" value="Comprar" data-id="${this.productos[index].id}"></input></td>
                 </tr>`;
             }
-            txtTabla += `</tbody></table>`;
         }
+        txtTabla += `</tbody></table>`;
         return txtTabla;
     }
 
+
     productosEnOferta() {
-        let txtTablaOferta = `<h3>Listado de productos en oferta</h3>`
+        let txtTablaOferta = `<h3>Listado de productos en oferta</h3>`;
+        txtTablaOferta += `<table style="margin-top: 15px; width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Nombre del producto</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Descripción</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Precio</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Disponible</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Imagen</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Cantidad</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Acción</th>
+                </tr>
+            </thead>
+            <tbody id="productTable">`;
+
         for (let index = 0; index < this.productos.length; index++) {
             const producto = this.productos[index];
             if (producto.oferta) {
-                txtTablaOferta += `<table style="margin-top: 15px;">
-                <thead>
-                    <tr>
-                        <th>Nombre del producto</th>
-                        <th>Descripción</th>
-                        <th>Precio</th>
-                        <th>Disponible</th>
-                        <th>Imagen</th>
-                        <th>Cantidad</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody id="productTable">`;
                 txtTablaOferta += `<tr>
-                    <td>${producto.nombre}</td>
-                    <td>${producto.desc}</td>
-                    <td>$${producto.precio}</td>
-                    <td>${producto.stock > 0 ? 'Sí' : 'No'}</td>
-                    <td><img src="${producto.img}" alt="${producto.nombre}" style="width: 40px; heigth: 40px;"></td>
-                    <td><input type="number" class="cantStock" min="1" max="${producto.stock}" value="1"></td>
-                    <td><input type="submit" class="comprarProductosOferta" value="Comprar" data-id="${this.productos[index].id}"></input></td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${producto.nombre}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${producto.desc}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">$${producto.precio}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${producto.stock > 0 ? 'Sí' : 'No'}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;"><img src="${producto.img}" alt="${producto.nombre}" style="width: 40px; height: 40px;"></td>
+                    <td style="border: 1px solid #ddd; padding: 8px;"><input type="number" class="cantStock" min="1" max="${producto.stock}" value="1"></td>
+                    <td style="border: 1px solid #ddd; padding: 8px;"><input type="submit" class="comprarProductosOferta" value="Comprar" data-id="${this.productos[index].id}"></input></td>
                 </tr>`;
             }
-            txtTablaOferta += `</tbody></table>`;
         }
+        txtTablaOferta += `</tbody></table>`;
         return txtTablaOferta;
     }
 
-    misCompras() {
-        let contadorComrpras = 1;
+
+    misCompras(filtroNuevo = 'todas') {
+        let contadorCompras = 1;
         let txtTabla = `<h3>Mis Compras</h3>`;
         txtTabla += `<select class="filter" style="margin-bottom: 30px;">
-            <option value="todas" selected>Todas</option>
-            <option value="aprobada">Aprobadas</option>
-            <option value="cancelada">Canceladas</option>
-            <option value="pendiente">Pendientes</option>
+            <option value="todas" ${filtroNuevo === 'todas' ? 'selected' : ''}>Todas</option>
+            <option value="aprobada" ${filtroNuevo === 'aprobada' ? 'selected' : ''}>Aprobadas</option>
+            <option value="cancelada" ${filtroNuevo === 'cancelada' ? 'selected' : ''}>Canceladas</option>
+            <option value="pendiente" ${filtroNuevo === 'pendiente' ? 'selected' : ''}>Pendientes</option>
         </select>`;
+        txtTabla += `<table style="margin-top: 15px; width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Nombre del Producto</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Cantidad</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Monto Total</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Estado</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Oferta</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="comprasTable">`;
+
         for (let index = 0; index < this.compras.length; index++) {
             const misCompras = this.compras[index];
-            txtTabla += `<table style="margin-top: 15px;">
-                <thead>
-                    <tr>
-                    <th>Nombre del Producto</th>
-                    <th>Cantidad</th>
-                    <th>Monto Total</th>
-                    <th>Estado</th>
-                    <th>Oferta</th>
-                    <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="comprasTable">`;
-            txtTabla += `<tr>
-                    <td>${misCompras.misProductos.nombre}</td>
-                    <td>${misCompras.cantidad}</td>
-                    <td>$${misCompras.cantidad * misCompras.misProductos.precio}</td>
-                    <td>${misCompras.estado}</td>
-                    <td>${misCompras.misProductos.oferta ? 'En Oferta' : 'Sin oferta'}</td>`
-            if (misCompras.estado === 'pendiente') {
-                txtTabla += `<td><input type="submit" class="cancelarCompra" value="Cancelar" data-id="${misCompras.idCompra}"></input></td>`
-            }
-            txtTabla += `</tr>`;
-            txtTabla += `</tbody></table>`;
-
-            if (misCompras.estado === 'aprobada') {
-                console.log('misCompras.estado ', misCompras.estado);
-                txtTabla += `<p>La cantidad de compras es ${contadorComrpras++}, y el saldo disponible ${misCompras.cliente.saldo}</p>`
-            }
-        }
-        return txtTabla;
-    }
-
-
-    //Dibujo de tablas admin
-
-    comprasPendientes() {        
-        let txtTabla = `<h3>Compras Pendientes</h3>`;
-        for (let index = 0; index < this.compras.length; index++) {
-            const misCompras = this.compras[index];
-            console.log('pendiente? ', misCompras.estado);
-            if (misCompras.estado === 'pendiente') {
-                txtTabla += `<table style="margin-top: 15px;">
-                <thead>
-                    <tr>
-                    <th>Nombre del Producto</th>
-                    <th>Cantidad</th>
-                    <th>Monto Total</th>
-                    <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="comprasTable">`;
+            if (filtroNuevo === 'todas' || misCompras.estado === filtroNuevo) {
                 txtTabla += `<tr>
-                    <td>${misCompras.misProductos.nombre}</td>
-                    <td>${misCompras.cantidad}</td>
-                    <td>$${misCompras.cantidad * misCompras.misProductos.precio}</td>`
+                    <td style="border: 1px solid #ddd; padding: 8px;">${misCompras.misProductos.nombre}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${misCompras.cantidad}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">$${misCompras.cantidad * misCompras.misProductos.precio}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${misCompras.estado}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${misCompras.misProductos.oferta ? 'En Oferta' : 'Sin oferta'}</td>`;
                 if (misCompras.estado === 'pendiente') {
-                    txtTabla += `<td><input type="submit" class="aprobarCompra" value="Aprobar" data-id="${misCompras.idCompra}"></input></td>`
+                    txtTabla += `<td style="border: 1px solid #ddd; padding: 8px;"><input type="submit" class="cancelarCompra" value="Cancelar" data-id="${misCompras.idCompra}"></input></td>`;
+                } else {
+                    txtTabla += `<td style="border: 1px solid #ddd; padding: 8px;"></td>`;
                 }
                 txtTabla += `</tr>`;
 
                 if (misCompras.estado === 'aprobada') {
-                    txtTabla += `<p>La cantidad de compras es ${misCompras.cantidad}, y el saldo disponible ${misCompras.cliente.saldo}</p>`
+                    txtTabla += `<p>La cantidad de compras es ${contadorCompras++}, y el saldo disponible ${misCompras.cliente.saldo}</p>`;
                 }
-                txtTabla += `</tbody></table>`;
             }
         }
+        txtTabla += `</tbody></table>`;
         return txtTabla;
     }
+
+    resumenCompras() {
+        let txtResumen = `<h3>Resumen de compras</h3>`;
+        let totalesPorProducto = {};
+        for (let index = 0; index < this.compras.length; index++) {
+            const compra = this.compras[index];
+            let productoId = compra.misProductos.id;
+            let nombreProducto = compra.misProductos.nombre;
+            let cantidad = compra.cantidad;
+
+            if (totalesPorProducto[productoId]) {
+                //si existe el prod le suma la cantidad
+                totalesPorProducto[productoId].cantidad += cantidad;
+            } else {
+                //si el prod esta por primera vez le asigna la cantidad actual
+                totalesPorProducto[productoId] = {
+                    idProd: productoId,
+                    nombre: nombreProducto,
+                    cantidad: cantidad
+                };
+            }
+        }
+
+        for (let productId in totalesPorProducto) {
+            if (totalesPorProducto.hasOwnProperty(productId)) {
+                let nombreProducto = totalesPorProducto[productId].nombre;
+                let cantidadVendida = totalesPorProducto[productId].cantidad;
+                let gananciaTotal = cantidadVendida * this.precioProductoById(totalesPorProducto[productId].idProd);
+
+                txtResumen += `<p>Producto: ${nombreProducto} - Cantidad vendida: ${cantidadVendida} - Ganancia total: ${gananciaTotal}</p>`;
+            }
+        }
+
+        return txtResumen;
+    }
+
+    //Dibujo de tablas admin
+
+    comprasPendientes() {
+        let txtTabla = `<h3>Compras Pendientes</h3>`;
+        txtTabla += `<table style="margin-top: 15px; width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Nombre del Producto</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Cantidad</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Monto Total</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="comprasTable">`;
+
+        for (let index = 0; index < this.compras.length; index++) {
+            const misCompras = this.compras[index];
+            if (misCompras.estado === 'pendiente') {
+                txtTabla += `<tr>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${misCompras.misProductos.nombre}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${misCompras.cantidad}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">$${misCompras.cantidad * misCompras.misProductos.precio}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;"><input type="submit" class="aprobarCompra" value="Aprobar" data-id="${misCompras.idCompra}"></input></td>
+                </tr>`;
+            }
+        }
+        txtTabla += `</tbody></table>`;
+        return txtTabla;
+    }
+
 
     comprasAprobadas() {
         let txtTabla = `<h3>Compras Aprobadas</h3>`;
+        txtTabla += `<table style="margin-top: 15px; width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Nombre del Producto</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Cantidad</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Monto Total</th>
+                </tr>
+            </thead>
+            <tbody id="comprasTable">`;
+
         for (let index = 0; index < this.compras.length; index++) {
             const misCompras = this.compras[index];
-            if (misCompras.estado === 'aprobada')
-                txtTabla += `<table style="margin-top: 15px;">
-                <thead>
-                    <tr>
-                    <th>Nombre del Producto</th>
-                    <th>Cantidad</th>
-                    <th>Monto Total</th>
-                    </tr>
-                </thead>
-                <tbody id="comprasTable">`;
-            txtTabla += `<tr>
-                    <td>${misCompras.misProductos.nombre}</td>
-                    <td>${misCompras.cantidad}</td>
-                    <td>$${misCompras.cantidad * misCompras.misProductos.precio}</td>`
-            txtTabla += `</tr>`;
-            txtTabla += `</tbody></table>`;
+            if (misCompras.estado === 'aprobada') {
+                txtTabla += `<tr>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${misCompras.misProductos.nombre}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${misCompras.cantidad}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">$${misCompras.cantidad * misCompras.misProductos.precio}</td>
+                </tr>`;
+            }
         }
+        txtTabla += `</tbody></table>`;
         return txtTabla;
     }
 
+
     comprasCanceladas() {
         let txtTabla = `<h3>Compras Canceladas</h3>`;
+        txtTabla += `<table style="margin-top: 15px; width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Nombre del Producto</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Cantidad</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Monto Total</th>
+                </tr>
+            </thead>
+            <tbody id="comprasTable">`;
+
         for (let index = 0; index < this.compras.length; index++) {
             const misCompras = this.compras[index];
             if (misCompras.estado === 'cancelada') {
-                txtTabla += `<table style="margin-top: 15px;">
-                <thead>
-                    <tr>
-                    <th>Nombre del Producto</th>
-                    <th>Cantidad</th>
-                    <th>Monto Total</th>
-                    </tr>
-                </thead>
-                <tbody id="comprasTable">`;
                 txtTabla += `<tr>
-                    <td>${misCompras.misProductos.nombre}</td>
-                    <td>${misCompras.cantidad}</td>
-                    <td>$${misCompras.cantidad * misCompras.misProductos.precio}</td>`
-                txtTabla += `</tr>`;
-                txtTabla += `</tbody></table>`;
+                    <td style="border: 1px solid #ddd; padding: 8px;">${misCompras.misProductos.nombre}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${misCompras.cantidad}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">$${misCompras.cantidad * misCompras.misProductos.precio}</td>
+                </tr>`;
             }
         }
+        txtTabla += `</tbody></table>`;
         return txtTabla;
     }
+
+
+    administrarProductos() {
+        let txtTabla = "<h3>Administración de productos</h3>";
+        txtTabla += `<table style="margin-top: 15px; width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Nombre del Producto</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Descripción</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Precio</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Stock</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Estado</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Oferta</th>
+                </tr>
+            </thead>
+            <tbody id="productosTable">`;
+
+        for (let index = 0; index < this.productos.length; index++) {
+            const producto = this.productos[index];
+            txtTabla += `<tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">${producto.nombre}</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">${producto.desc}</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">$${producto.precio}</td>
+                <td style="border: 1px solid #ddd; padding: 8px;"><input type="number" value="${producto.stock}" data-id="${producto.id}" class="modificarStock" style="width: 50px;"></td>
+                <td style="border: 1px solid #ddd; padding: 8px;">
+                    <select data-id="${producto.id}" class="modificarEstado">
+                        <option value="activo" ${producto.estado === 'activo' ? 'selected' : ''}>Activo</option>
+                        <option value="pausado" ${producto.estado === 'pausado' ? 'selected' : ''}>Pausado</option>
+                    </select>
+                </td>
+                <td style="border: 1px solid #ddd; padding: 8px;"><input type="checkbox" data-id="${producto.id}" class="modificarOferta" ${producto.oferta ? 'checked' : ''}></td>
+            </tr>`;
+        }
+
+        txtTabla += `</tbody></table>`;
+        return txtTabla;
+    }
+
 
     precarga() {
         this.AgregarPersona(this.idIncremental(), "Juan", "Pérez", "juanperez", "Passw0rd1", "1234567890123456", '123', false);
         this.AgregarPersona(this.idIncremental(), "María", "González", "mariagonzalez", "Passw0rd2", "2345678901234567", '234', true);
-        this.AgregarPersona(this.idIncremental(), "Carlos", "Rodríguez", "carlosrodriguez", "Passw0rd3", "3456789012345678", '345', false);
-        this.AgregarPersona(this.idIncremental(), "Ana", "Martínez", "anamartinez", "Passw0rd4", "4567890123456789", '456', false);
-        this.AgregarPersona(this.idIncremental(), "Luis", "García", "luisgarcia", "Passw0rd5", "5678901234567890", '567', false);
-        this.AgregarPersona(this.idIncremental(), "Laura", "Hernández", "laurahernandez", "Passw0rd6", "6789012345678901", '678', false);
-        this.AgregarPersona(this.idIncremental(), "Pedro", "López", "pedrolopez", "Passw0rd7", "7890123456789012", '789', false);
-        this.AgregarPersona(this.idIncremental(), "Elena", "Sánchez", "elenasanchez", "Passw0rd8", "8901234567890123", '890', false);
-        this.AgregarPersona(this.idIncremental(), "Jorge", "Ramírez", "jorgeramirez", "Passw0rd9", "9012345678901234", '901', false);
-        this.AgregarPersona(this.idIncremental(), "Lucía", "Torres", "lucíatorres", "Passw0rd10", "0123456789012345", '312', false);
-        this.AgregarPersona(this.idIncremental(), "Fernando", "Flores", "fernandoflores", "Passw0rd11", "1234567890123451", '123', false);
-        this.AgregarPersona(this.idIncremental(), "Sara", "Rojas", "sararojas", "Passw0rd12", "2345678901234562", '234', false);
-        this.AgregarPersona(this.idIncremental(), "Diego", "Morales", "diegomorales", "Passw0rd13", "3456789012345673", '345', false);
-        this.AgregarPersona(this.idIncremental(), "Valeria", "Ortiz", "valeriaortiz", "Passw0rd14", "4567890123456784", '456', false);
-        this.AgregarPersona(this.idIncremental(), "Miguel", "Jiménez", "migueljimenez", "Passw0rd15", "5678901234567895", '567', false);
 
         this.AgregarProducto(this.idIncremental(), "Balón de Baloncesto", 29, 40, true, "activo", "Balón oficial de baloncesto tamaño estándar.", "./assets/baloncestoBall.webp");
-        this.AgregarProducto(this.idIncremental(), "Ropa de Yoga", 39, 60, false, "activo", "Conjunto de ropa cómoda para practicar yoga.", "./assets/baloncestoBall.webp");
-        this.AgregarProducto(this.idIncremental(), "Bicicleta de Montaña", 299, 20, true, "activo", "Bicicleta diseñada para terrenos difíciles.", "./assets/baloncestoBall.webp");
-        this.AgregarProducto(this.idIncremental(), "Guantes de Boxeo", 49, 25, false, "activo", "Guantes profesionales para entrenamiento de boxeo.", "./assets/baloncestoBall.webp");
-        this.AgregarProducto(this.idIncremental(), "Tabla de Surf", 199, 15, true, "activo", "Tabla de surf resistente y maniobrable.", "./assets/baloncestoBall.webp");
-        this.AgregarProducto(this.idIncremental(), "Cuerda para Saltar", 9, 80, false, "activo", "Cuerda de saltar ajustable para entrenamientos intensivos.", "./assets/baloncestoBall.webp");
-        this.AgregarProducto(this.idIncremental(), "Pantalones Cortos de Running", 19, 70, true, "activo", "Pantalones cortos transpirables para correr.", "./assets/baloncestoBall.webp");
-        this.AgregarProducto(this.idIncremental(), "Balón Medicinal", 39, 30, false, "pausado", "Balón medicinal para entrenamientos de fuerza y resistencia.", "./assets/baloncestoBall.webp");
-        this.AgregarProducto(this.idIncremental(), "Calcetines Deportivos", 7, 120, false, "pausado", "Calcetines cómodos y transpirables para deportes.", "./assets/baloncestoBall.webp");
-        this.AgregarProducto(this.idIncremental(), "Gorra de Tenis", 14, 50, true, "pausado", "Gorra ajustable para protegerse del sol durante el tenis.", "./assets/baloncestoBall.webp");
-        this.AgregarProducto(this.idIncremental(), "Mancuernas", 49, 45, true, "pendiente", "Par de mancuernas para entrenamientos de fuerza.", "./assets/baloncestoBall.webp");
-        this.AgregarProducto(this.idIncremental(), "Pulsera de Actividad", 79, 65, false, "aprobada", "Pulsera para monitorear actividad física y salud.", "./assets/baloncestoBall.webp");
-        this.AgregarProducto(this.idIncremental(), "Botella de Agua Deportiva", 12, 90, true, "pausado", "Botella de agua diseñada para deportistas.", "./assets/baloncestoBall.webp");
-        this.AgregarProducto(this.idIncremental(), "Mochila de Senderismo", 69, 25, false, "pausado", "Mochila resistente para excursiones largas.", "./assets/baloncestoBall.webp");
+        this.AgregarProducto(this.idIncremental(), "Ropa de Yoga", 39, 60, false, "activo", "Conjunto de ropa cómoda para practicar yoga.", "./assets/ropaYoga.jpg");
+        this.AgregarProducto(this.idIncremental(), "Bicicleta de Montaña", 299, 20, true, "activo", "Bicicleta diseñada para terrenos difíciles.", "./assets/biciMontania.avif");
+        this.AgregarProducto(this.idIncremental(), "Guantes de Boxeo", 49, 25, false, "activo", "Guantes profesionales para entrenamiento de boxeo.", "./assets/guantesBoxeo.webp");
+        this.AgregarProducto(this.idIncremental(), "Tabla de Surf", 199, 15, true, "activo", "Tabla de surf resistente y maniobrable.", "./assets/tablasSurf.webp");
+        this.AgregarProducto(this.idIncremental(), "Cuerda para Saltar", 9, 80, false, "activo", "Cuerda de saltar ajustable para entrenamientos intensivos.", "./assets/cuerdaSaltar.jfif");
     }
 
     idIncremental() {

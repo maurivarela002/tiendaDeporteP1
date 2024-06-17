@@ -94,6 +94,7 @@ function vistaAdmin() {
     comprasPendientes()
     comprasAprobadas()
     comprasCanceladas()
+    administrarProductos()
 }
 
 function productosDisponibles() {
@@ -122,11 +123,15 @@ function productosEnOferta() {
 
 function misCompras() {
     document.querySelector('#misCompras').innerHTML = unS.misCompras();
+    eventosdeMisCompras();
+}
+
+function eventosdeMisCompras() {
     let select = document.querySelectorAll('.filter');
     select.forEach(prod => {
         prod.addEventListener('change', function () {
             const valorSeleccionado = this.value;
-            console.log('Valor seleccionado:', valorSeleccionado);
+            cambiarFiltroCompras(valorSeleccionado);
         });
     });
 
@@ -158,4 +163,36 @@ function comprasAprobadas() {
 
 function comprasCanceladas() {
     document.querySelector('#comprasCanceladas').innerHTML = unS.comprasCanceladas();
+}
+
+function administrarProductos() {
+    document.querySelector('#administrarProductos').innerHTML = unS.administrarProductos();
+
+    let editarStock = document.querySelectorAll('.modificarStock');
+    let editarEstado = document.querySelectorAll('.modificarEstado');
+    let editarOferta = document.querySelectorAll('.modificarOferta');
+
+    editarStock.forEach(input => {
+        input.addEventListener('change', function () {
+            let productoId = this.getAttribute('data-id');
+            let nuevoStock = this.value;
+            modificarStock(productoId, nuevoStock);
+        });
+    });
+
+    editarEstado.forEach(select => {
+        select.addEventListener('change', function () {
+            let productoId = this.getAttribute('data-id');
+            let nuevoEstado = this.value;
+            modificarEstado(productoId, nuevoEstado);
+        });
+    });
+
+    editarOferta.forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            let productoId = this.getAttribute('data-id');
+            let enOferta = this.checked;
+            modificarOferta(productoId, enOferta);
+        });
+    });
 }

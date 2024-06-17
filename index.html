@@ -35,114 +35,46 @@
 
 
         <div id="comprasPendientes" class="admin"></div>
-        
+
         <div id="comprasAprobadas" class="admin"></div>
 
         <div id="comprasCanceladas" class="admin"></div>
-        <!-- 
-   
 
-    <form id="crearProductos" class="admin" style="display: grid; gap: 10px; width: 15%; margin-top: 20px;">
-        <label>Nombre del Producto:</label>
-        <input type="text" id="nombre" name="nombre" required>
+        <form id="crearProductos" class="admin" style="display: grid; gap: 10px; width: 80%; margin: 5% 10%;">
+            <h2>Crea tus productos!</h2>
+            <label>Nombre del Producto:</label>
+            <input type="text" id="nombreP" name="nombre" required>
 
-        <label>Precio:</label>
-        <input type="number" id="precio" name="precio" step="0.01" required>
+            <label>Precio:</label>
+            <input type="number" id="precioP" name="precio" step="0.01" required>
 
-        <label>Descripción:</label>
-        <textarea id="descripcion" name="descripcion" required></textarea>
+            <label>Descripción:</label>
+            <textarea id="descripcionP" name="descripcion" required></textarea>
 
-        <label>URL de Imagen:</label>
-        <input type="url" id="urlImagen" name="urlImagen" required>
+            <label>URL de Imagen:</label>
+            <select id="urlImagenP">
+                <option value="./assets/raquetaTenis.jfif">Raquetas de Tenis</option>
+                <option value="./assets/pelotaFutbol.jpg">Balón de Soccer</option>
+                <option value="./assets/paloHockey.webp">Palo de Hockey</option>
+                <option value="./assets/guantesPiloto.webp">Guantes de Pilotos</option>
+            </select>
 
-        <label>Cantidad del Stock Disponible:</label>
-        <input type="number" id="stock" name="stock" required>
 
-        <button id="crearProducto">Crear Producto</button>
-    </form>
+            <label>Cantidad del Stock Disponible:</label>
+            <input type="number" id="stockP" name="stock" required>
 
-    <div id="resumenCompras" class="admin" style="margin-top: 10px;">
-        <h2>Resumen de Compras</h2>
-        <p id="ventasInfo">Hay 7 productos vendidos para la pelota, teniendo una ganancia total de $679</p>
-    </div>
+            <button id="crearProductoP">Crear Producto</button>
+        </form>
 
-    <div id="adminProds" class="admin" style="margin-top: 10px;">
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre del Producto</th>
-                    <th>Descripción</th>
-                    <th>Precio</th>
-                    <th>Stock</th>
-                    <th>Estado</th>
-                    <th>Oferta</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="productosTable">
-                <tr data-id="1" data-estado="activo" data-stock="5">
-                    <td>Pelota</td>
-                    <td>Pelota de fútbol</td>
-                    <td>$100</td>
-                    <td>
-                        <input type="number" value="5" min="0" onchange="modificarStock(this)">
-                    </td>
-                    <td>
-                        <select>
-                            <option value="activo" selected>Activo</option>
-                            <option value="pausado">Pausado</option>
-                        </select>
-                    </td>
-                    <td>
-                        <input type="checkbox" onchange="modificarOferta(this)">
-                    </td>
-                    <td>
-                        <button id="eliminarProducto">Eliminar</button>
-                    </td>
-                </tr>
-                <tr data-estado="activo" data-stock="1">
-                    <td>Pantalon Barcelona</td>
-                    <td>Pantalón oficial del FC Barcelona</td>
-                    <td>$600</td>
-                    <td>
-                        <input type="number" value="1" min="0" onchange="modificarStock(this)">
-                    </td>
-                    <td>
-                        <select>
-                            <option value="activo" selected>Activo</option>
-                            <option value="pausado">Pausado</option>
-                        </select>
-                    </td>
-                    <td>
-                        <input type="checkbox">
-                    </td>
-                    <td>
-                        <button id="eliminarProducto">Eliminar</button>
-                    </td>
-                </tr>
-                <tr data-id="3" data-estado="pausado" data-stock="15">
-                    <td>Medias antideslizantes</td>
-                    <td>Medias deportivas antideslizantes</td>
-                    <td>$57</td>
-                    <td>
-                        <input type="number" value="15" min="0" onchange="modificarStock(this)">
-                    </td>
-                    <td>
-                        <select>
-                            <option value="activo">Activo</option>
-                            <option value="pausado" selected>Pausado</option>
-                        </select>
-                    </td>
-                    <td>
-                        <input type="checkbox">
-                    </td>
-                    <td>
-                        <button id="eliminarProducto">Eliminar</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div> -->
+        
+        <div id="administrarProductos" class="admin"></div>
+
+
+        <div class="admin">
+            <button class="btnResumen" id="resumen">Resumen de compras</button>
+            <div id="resumenCompras"></div>
+        </div>
+
     </main>
 </body>
 
