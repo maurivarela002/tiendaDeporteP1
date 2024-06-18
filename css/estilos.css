@@ -37,6 +37,11 @@ main {
 
 .credencialInvalida {
     color: red;
+    padding: 0 10%;
+}
+
+.credencialesCorrectas {
+    color: rgb(65, 159, 52);
     padding: 5%;
 }
 

@@ -11,16 +11,28 @@ document.querySelector('#logout').addEventListener('click', function () {
     LogOut()
 });
 
-document.querySelector("#crearProductos").addEventListener("submit", function (event) {
+document.querySelector("#crearProductos").addEventListener("submit", function () {
     event.preventDefault();
 
-    const nombre = document.querySelector("#nombreP").value;
-    const precio = parseFloat(document.querySelector("#precioP").value);
-    const descripcion = document.querySelector("#descripcionP").value;
-    const urlImagen = document.querySelector("#urlImagenP").value;
-    const stock = parseInt(document.querySelector("#stockP").value);
+    let nombre = document.querySelector("#nombreP").value;
+    let precio = parseFloat(document.querySelector("#precioP").value);
+    let descripcion = document.querySelector("#descripcionP").value;
+    let urlImagen = document.querySelector("#urlImagenP").value;
+    let stock = parseInt(document.querySelector("#stockP").value);
 
     crearProductos(nombre, precio, stock, false, "activo", descripcion, urlImagen);
+});
+
+document.querySelector("#crearUsuarioBtn").addEventListener("click", function () {
+    event.preventDefault();
+    let nombre = document.querySelector("#crearNombre").value;
+    let apellido = document.querySelector("#crearApellido").value;
+    let userName = document.querySelector("#crearUserName").value.toLowerCase();
+    let password = document.querySelector("#crearPasswd").value;
+    let tarjetaCred = document.querySelector("#crearNroTar").value;
+    let cvc = document.querySelector("#crearCVC").value;
+
+    crearUsuarioCliente(nombre, apellido, userName, password, tarjetaCred, cvc);
 });
 
 document.querySelector('#resumen').addEventListener('click', function () {
@@ -82,6 +94,22 @@ function cambiarFiltroCompras(filtroNuevo) {
     eventosdeMisCompras();
 }
 
-function resumenCompras(){
+function resumenCompras() {
     document.querySelector('#resumenCompras').innerHTML = unS.resumenCompras();
+}
+
+function crearUsuarioCliente(nombre, apellido, userName, password, tarjetaCred, cvc) {
+    if (unS.userNameExiste(userName)) {
+        document.querySelector('#registroIncorrecto').innerHTML = 'Usuario Existente!'
+    } else {
+        let registro = unS.AgregarPersona(unS.idIncremental(), nombre, apellido, userName, password, tarjetaCred, cvc, false, true);
+        if (registro === undefined) {
+            document.querySelector('#registroOk').innerHTML = '';
+            document.querySelector('#registroIncorrecto').innerHTML = 'Error al registrarse!';
+        } else {
+            document.querySelector("#clientUserName").value = unS.devolverPersona(userName).userName;
+            document.querySelector('#registroIncorrecto').innerHTML = '';
+            document.querySelector('#registroOk').innerHTML = 'Usuario creado con exito! Prueba iniciar sesion...';
+        }
+    }
 }

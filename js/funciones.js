@@ -44,6 +44,58 @@ function contarNumeros(texto) {
     return contador;
 }
 
+function validarFormato(numero) {
+    let numeros = numero.split("-");
+    if (numero.length === 19 &&
+        numeros.length === 4 &&
+        esNumero(numeros[0]) &&
+        esNumero(numeros[1]) &&
+        esNumero(numeros[2]) &&
+        esNumero(numeros[3])) {
+        return true;
+    }
+    return false;
+}
+
+function esNumero(texto) {
+    if (texto.length === 4 && !isNaN(texto)) {
+        return true;
+    }
+    return false;
+}
+
+function algoritmoLuhn(pNumero) {
+    let suma = 0;
+    let contador = 0;
+    let i = pNumero.length - 1;
+    let num;
+
+    while (i >= 0) {
+        num = Number(pNumero.charAt(i));
+        if (isNaN(num)) {
+            return false;
+        }
+        if (contador % 2 == 0) {
+            num = duplicarPar(num);
+        }
+        suma += num;
+        i--;
+        contador++;
+    }
+    let total = 9 * suma;
+    let ultimoDigito = total % 10;
+
+    return ultimoDigito;
+}
+
+function duplicarPar(num) {
+    num = num * 2;
+    if (num > 9) {
+        num = 1 + (num % 10);
+    }
+    return num;
+}
+
 function mostrarId(id) {
     document.querySelector(id).style.display = 'block';
 }
@@ -69,6 +121,12 @@ function ocultarClase(clase) {
 function vistalogin() {
     document.querySelector("#clientUserName").value = "";
     document.querySelector("#clientPsswd").value = "";
+    document.querySelector("#crearNombre").value = "";
+    document.querySelector("#crearApellido").value = "";
+    document.querySelector("#crearUserName").value = "";
+    document.querySelector("#crearPasswd").value = "";
+    document.querySelector("#crearNroTar").value = "";
+    document.querySelector("#crearCVC").value = "";
     ocultarClase(".logOut");
     mostrarClase(".login");
     ocultarClase(".cliente");

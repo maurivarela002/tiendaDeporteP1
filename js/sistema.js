@@ -27,9 +27,10 @@ class Sistema {
     AgregarPersona(id, nombre, apellido, userName, password, numeroTarjeta, cvc, admin) {
         let unaPersona = new Persona(id, nombre, apellido, userName, password, numeroTarjeta, cvc, admin);
         if (unaPersona.validarPersona() && !this.userNameExiste(userName) &&
-            unaPersona.validarPassword() &&
-            unaPersona.validarCvc()) {
+            unaPersona.validarPassword() && unaPersona.validarTarjeta(numeroTarjeta)
+            && unaPersona.validarCvc()) {
             this.personas.push(unaPersona);
+            return true
         }
     }
 
@@ -321,6 +322,7 @@ class Sistema {
         return txtResumen;
     }
 
+
     //Dibujo de tablas admin
 
     comprasPendientes() {
@@ -444,8 +446,8 @@ class Sistema {
 
 
     precarga() {
-        this.AgregarPersona(this.idIncremental(), "Juan", "Pérez", "juanperez", "Passw0rd1", "1234567890123456", '123', false);
-        this.AgregarPersona(this.idIncremental(), "María", "González", "mariagonzalez", "Passw0rd2", "2345678901234567", '234', true);
+        this.AgregarPersona(this.idIncremental(), "Juan", "Pérez", "juanperez", "Passw0rd1", "1234-5678-9012-3456", '123', false);
+        this.AgregarPersona(this.idIncremental(), "María", "González", "mariagonzalez", "Passw0rd2", "2345-6789-0123-4567", '234', true);
 
         this.AgregarProducto(this.idIncremental(), "Balón de Baloncesto", 29, 40, true, "activo", "Balón oficial de baloncesto tamaño estándar.", "./assets/baloncestoBall.webp");
         this.AgregarProducto(this.idIncremental(), "Ropa de Yoga", 39, 60, false, "activo", "Conjunto de ropa cómoda para practicar yoga.", "./assets/ropaYoga.jpg");

@@ -7,6 +7,4 @@ class Compras {
         this.misProductos = prods
         this.cliente = cliente
     }
-
-
 }

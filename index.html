@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="./css/estilos.css">
-    <link rel="icon" type="image/x-icon" href="./assets/baloncestoBall.webp">
     <title>Tienda</title>
 </head>
 
@@ -46,7 +45,7 @@
             <input type="text" id="nombreP" name="nombre" required>
 
             <label>Precio:</label>
-            <input type="number" id="precioP" name="precio" step="0.01" required>
+            <input type="number" id="precioP" name="precio" required>
 
             <label>Descripción:</label>
             <textarea id="descripcionP" name="descripcion" required></textarea>
@@ -66,7 +65,7 @@
             <button id="crearProductoP">Crear Producto</button>
         </form>
 
-        
+
         <div id="administrarProductos" class="admin"></div>
 
 
@@ -75,6 +74,32 @@
             <div id="resumenCompras"></div>
         </div>
 
+        <div class="login">
+            <h3>Crea un usuario</h3>
+            <form id="crearUsuariosCliente" style="display: grid; gap: 10px; align-items: center;">
+                <label>Nombre:</label>
+                <input type="text" id="crearNombre" name="nombre" required>
+
+                <label>Apellido:</label>
+                <input type="text" id="crearApellido" name="apellido" required>
+
+                <label>Nombre de usuario:</label>
+                <input type="text" id="crearUserName" name="apellido" required>
+
+                <label>Contraseña:</label>
+                <input type="text" id="crearPasswd" name="contraseña" required>
+
+                <label>Numero de Tarjeta:</label>
+                <input type="text" id="crearNroTar" name="nroTarjeta" required>
+
+                <label>CVC:</label>
+                <input type="number" id="crearCVC" name="cvc" required>
+
+                <button id="crearUsuarioBtn">Crear Usuario</button>
+
+                <p class="credencialInvalida" id="registroIncorrecto"></p>
+                <p class="credencialesCorrectas" id="registroOk"></p>
+            </form>
     </main>
 </body>
 

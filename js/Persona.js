@@ -11,10 +11,6 @@ class Persona {
         this.admin = admin;
     }
 
-    // validarUserName() {
-    //     return this.userName.toLowerCase()
-    // }
-
     validarPassword() {
         let pwdValidada = false;
         if (this.password.length > 5) {
@@ -39,6 +35,23 @@ class Persona {
             return true;
         } else {
             return false;
+        }
+    }
+
+    validarTarjeta() {
+        if (!validarFormato(this.tarjetaCredito)) {
+            return "El formato de la tarjeta es inválido.";
+        }
+        let numeroSinGuiones = "";
+        let partesTarj = this.tarjetaCredito.split("-");
+        for (let i = 0; i < partesTarj.length; i++) {
+            numeroSinGuiones += partesTarj[i];
+        }
+
+        if (algoritmoLuhn(numeroSinGuiones)) {
+            return "La tarjeta de crédito es válida.";
+        } else {
+            return "La tarjeta de crédito es inválida.";
         }
     }
 
